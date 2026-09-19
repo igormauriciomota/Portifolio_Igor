@@ -1,0 +1,2 @@
+<div class="admin-nav"><div><a href="{{ url_for('admin.dashboard') }}">Visão geral</a><a href="{{ url_for('admin.projects') }}">Projetos</a><a href="{{ url_for('main.home') }}" target="_blank">Ver site ↗</a></div><form method="post" action="{{ url_for('admin.logout') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn btn-sm btn-outline-light" type="submit">Sair</button></form></div>
+

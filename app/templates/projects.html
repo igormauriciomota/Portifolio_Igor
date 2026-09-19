@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Projetos e estudos de caso | Igor Mota{% endblock %}
+{% block styles %}<link rel="stylesheet" href="{{ url_for('static', filename='css/case-studies.css') }}">{% endblock %}
+{% block content %}
+<header class="page-hero projects-page-hero">
+  <div class="container">
+    <p class="eyebrow">Laboratório de soluções</p>
+    <h1>Projetos apresentados como estudos de caso.</h1>
+    <p>Explore o contexto, a solução, as tecnologias e o estágio de cada produto. Os cartões respondem ao cursor e abrem detalhes sem retirar você da página.</p>
+  </div>
+</header>
+
+<section class="section project-catalog">
+  <div class="container">
+    <nav class="filter-bar" aria-label="Filtrar projetos">
+      <a class="filter-pill {{ 'active' if not active_category }}" href="{{ url_for('main.projects') }}">Todos</a>
+      {% for category in categories %}<a class="filter-pill {{ 'active' if active_category == category }}" href="{{ url_for('main.projects', categoria=category) }}">{{ category }}</a>{% endfor %}
+    </nav>
+
+    <div class="catalog-grid">
+      {% for project in projects %}
+      <article class="catalog-card case-card reveal" data-case-card>
+        <div class="case-visual case-{{ project.category|lower }}" aria-hidden="true">
+          <span class="case-code">CASE // {{ '%02d'|format(loop.index) }}</span>
+          <span class="case-symbol">{{ 'PY' if 'Python' in project.technology_list else 'BI' if project.category == 'Dados' else 'DB' if 'SQL' in project.technology_list else '◫' }}</span>
+          <i></i><i></i><i></i>
+        </div>
+        <div class="catalog-top"><span>{{ project.category }}</span><span>{{ project.year }}</span></div>
+        <h2><a href="{{ url_for('main.project_detail', slug=project.slug) }}">{{ project.title }}</a></h2>
+        <p>{{ project.summary }}</p>
+        <div class="status-line"><span class="status-dot"></span>{{ project.status }} · {{ project.level }}</div>
+        <ul class="tag-list">{% for tech in project.technology_list %}<li>{{ tech }}</li>{% endfor %}</ul>
+        <div class="case-actions">
+          <button class="case-study-btn" type="button"
+            data-case-open
+            data-title="{{ project.title|e }}"
+            data-category="{{ project.category|e }}"
+            data-year="{{ project.year }}"
+            data-summary="{{ project.summary|e }}"
+            data-description="{{ project.description|e }}"
+            data-technologies="{{ project.technologies|e }}"
+            data-status="{{ project.status|e }}"
+            data-level="{{ project.level|e }}"
+            data-url="{{ url_for('main.project_detail', slug=project.slug) }}">Ver estudo de caso <span>＋</span></button>
+          <a class="project-link" href="{{ url_for('main.project_detail', slug=project.slug) }}">Página completa ↗</a>
+        </div>
+      </article>
+      {% else %}
+      <div class="empty-state"><h2>Nenhum projeto nesta categoria.</h2><a href="{{ url_for('main.projects') }}">Limpar filtro</a></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<dialog class="case-dialog" id="case-dialog" aria-labelledby="case-title">
+  <div class="case-dialog-shell">
+    <button class="case-close" type="button" data-case-close aria-label="Fechar estudo de caso">×</button>
+    <header class="case-dialog-head">
+      <p><span data-case-category>Projeto</span> · <span data-case-year>2026</span></p>
+      <h2 id="case-title" data-case-title>Estudo de caso</h2>
+      <span class="case-dialog-status" data-case-status>Em evolução</span>
+    </header>
+    <div class="case-dialog-grid">
+      <section><span>01 // CONTEXTO</span><h3>O problema observado</h3><p data-case-summary></p></section>
+      <section><span>02 // SOLUÇÃO</span><h3>Como o projeto responde</h3><p data-case-description></p></section>
+      <section><span>03 // TECNOLOGIAS</span><h3>Stack utilizada</h3><div class="case-stack" data-case-stack></div></section>
+      <section><span>04 // MATURIDADE</span><h3>Nível do desenvolvimento</h3><p data-case-level></p></section>
+    </div>
+    <footer class="case-dialog-footer"><span>ESTUDO DE CASO INTERATIVO</span><a class="btn btn-primary" data-case-link href="#">Abrir página completa ↗</a></footer>
+  </div>
+</dialog>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/case-studies.js') }}" defer></script>{% endblock %}

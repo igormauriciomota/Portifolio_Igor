@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}{{ project.title }} | Igor Mota{% endblock %}
+{% block og_title %}{{ project.title }} | Projeto de Igor Mota{% endblock %}
+{% block content %}
+<article class="project-detail">
+  <header class="project-detail-hero"><div class="container"><a class="back-link" href="{{ url_for('main.projects') }}">← Todos os projetos</a><div class="project-detail-grid"><div><p class="eyebrow">{{ project.category }} · {{ project.year }}</p><h1>{{ project.title }}</h1><p>{{ project.summary }}</p><div class="hero-actions">{% if project.demo_url %}<a class="btn btn-primary" href="{{ project.demo_url }}" target="_blank" rel="noopener">Ver demonstração ↗</a>{% endif %}{% if project.repo_url %}<a class="btn btn-outline-light" href="{{ project.repo_url }}" target="_blank" rel="noopener">Código no GitHub ↗</a>{% endif %}</div></div><div class="project-orbit" aria-hidden="true"><span></span><strong>{{ project.category }}</strong></div></div></div></header>
+  <section class="section"><div class="container detail-content"><div><p class="eyebrow">Sobre o projeto</p><h2>Da necessidade à solução.</h2></div><div><p class="lead">{{ project.description }}</p><dl class="project-facts"><div><dt>Status</dt><dd>{{ project.status }}</dd></div><div><dt>Nível</dt><dd>{{ project.level }}</dd></div><div><dt>Tecnologias</dt><dd>{{ project.technologies }}</dd></div></dl></div></div></section>
+</article>
+{% endblock %}
+
