@@ -2,6 +2,12 @@
 
 Portfólio profissional desenvolvido com Python e Flask. O projeto apresenta a união entre Controladoria, Dados e Tecnologia e inclui catálogo de projetos, painel administrativo, formulário de contato, API pública de indicadores e experiência visual responsiva.
 
+## Site online
+
+### [Acessar o portfólio publicado](https://igor-mota-portfolio.igormotacontabil.chatgpt.site)
+
+A versão pública está hospedada no ChatGPT Sites, com design responsivo, retrato futurista, modo holográfico interativo e navegação por teclado. Este repositório contém a versão Python + Flask para execução local, estudo e publicação em uma hospedagem compatível com Python.
+
 ## Recursos principais
 
 - Design mobile-first, tema claro/escuro e navegação por teclado.
