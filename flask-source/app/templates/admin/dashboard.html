@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Painel | Portfólio{% endblock %}
+{% block body %}
+<main class="admin-page">
+<header>
+<a class="brand" href="{{ url_for('main.index') }}">
+<span>IM</span>
+<strong>Painel do Portfólio</strong>
+</a>
+<div>
+<a href="{{ url_for('main.index') }}">Ver site ↗</a>
+<form action="{{ url_for('auth.logout') }}" method="post">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<button>Sair</button>
+</form>
+</div>
+</header>
+<div class="admin-container">
+<div class="admin-heading">
+<div>
+<p>ÁREA PROTEGIDA</p>
+<h1>Conteúdo e projetos</h1>
+</div>
+<div>
+<a class="btn-ghost-custom" href="{{ url_for('admin.profile_edit') }}">Editar perfil</a>
+<a class="btn-primary-custom" href="{{ url_for('admin.project_create') }}">Novo projeto</a>
+</div>
+</div>
+<section class="admin-table">
+<div class="table-head">
+<span>Projeto</span>
+<span>Status</span>
+<span>Ações</span>
+</div>{% for project in projects %}<article>
+<div>
+<small>{{ project.eyebrow }}</small>
+<strong>{{ project.title }}</strong>
+</div>
+<span>{{ project.status }}</span>
+<div>
+<a href="{{ url_for('admin.project_edit', project_id=project.id) }}">Editar</a>
+<form action="{{ url_for('admin.project_delete', project_id=project.id) }}" method="post" onsubmit="return confirm('Excluir este projeto?')">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<button>Excluir</button>
+</form>
+</div>
+</article>{% else %}<p class="empty-admin">Nenhum projeto cadastrado.</p>{% endfor %}</section>
+</div>
+</main>
+{% endblock %}

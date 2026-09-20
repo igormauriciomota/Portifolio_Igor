@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+{% block body %}
+<!-- Menu lateral fixo. Os valores do perfil vieram do SQLite pela rota index. -->
+<aside class="portfolio-sidebar">
+  <a class="brand" href="#inicio">
+<span>IM</span>
+<div>
+<strong>{{ profile.name if profile else 'Igor Mota' }}</strong>
+<small>Python • Dados • Negócios</small>
+</div>
+</a>
+  <div class="profile-orbit">
+    {% if profile and profile.photo_filename %}
+      {% if profile.photo_filename.startswith('asset:') %}
+        <img src="{{ url_for('main.portfolio_asset', filename=profile.photo_filename[6:]) }}" alt="Foto de {{ profile.name }}">
+      {% else %}
+        <img src="{{ url_for('static', filename='uploads/' ~ profile.photo_filename) }}" alt="Foto de {{ profile.name }}">
+      {% endif %}
+    {% else %}
+      <img src="{{ url_for('main.portfolio_asset', filename='igor-avatar-realistic-v2.webp') }}" alt="Foto profissional de Igor Mota">
+    {% endif %}
+  </div>
+  <p class="role">{{ profile.headline if profile else 'Desenvolvedor Python & Analista de Dados' }}</p>
+  <p class="location">{{ profile.location if profile else 'Belo Horizonte, MG' }}</p>
+  <nav>
+    <a class="active" href="#inicio">
+<span>01</span>Início</a>
+    <a href="#sobre">
+<span>02</span>Sobre</a>
+    <a href="#habilidades">
+<span>03</span>Habilidades</a>
+    <a href="#projetos">
+<span>04</span>Projetos</a>
+    <a href="#artigos">
+<span>05</span>Artigos</a>
+    <a href="#contato">
+<span>06</span>Contato</a>
+  </nav>
+  {% if profile and profile.resume_filename %}
+    <a class="resume-link" download href="{{ url_for('static', filename='uploads/' ~ profile.resume_filename) }}">Baixar currículo ↓</a>
+  {% endif %}
+  {% if current_user.is_authenticated %}<a class="admin-link" href="{{ url_for('admin.dashboard') }}">Gerenciar portfólio</a>{% endif %}
+</aside>
+
+<header class="mobile-header">
+<a class="brand" href="#inicio">
+<span>IM</span>
+<strong>Igor Mota</strong>
+</a>
+<a href="#contato">Contato</a>
+</header>
+
+<main class="portfolio-content">
+  <!-- HERO: primeira tela, proposta de valor e métricas reais. -->
+  <section id="inicio" class="hero-section section-block">
+    <div class="grid-backdrop">
+</div>
+    <div class="hero-copy">
+      <p class="kicker">
+<i>
+</i> PORTFÓLIO PROFISSIONAL</p>
+      <h1>Tecnologia para transformar <em>dados em decisões.</em>
+</h1>
+      <p>Uno experiência em controladoria e contabilidade à programação para criar sistemas de negócio claros, auditáveis e úteis.</p>
+      <div class="hero-actions">
+<a class="btn-primary-custom" href="#projetos">Explorar projetos ↗</a>
+<a class="btn-ghost-custom" href="#sobre">Conhecer trajetória</a>
+</div>
+      <div class="metrics">
+<div>
+<b>02</b>
+<span>áreas conectadas<br>Python + negócios</span>
+</div>
+<div>
+<b>{{ '%02d'|format(projects|length) }}</b>
+<span>projetos cadastrados<br>com status real</span>
+</div>
+<div>
+<b>01</b>
+<span>objetivo central<br>resolver problemas reais</span>
+</div>
+</div>
+    </div>
+    <div class="code-card">
+      <div class="code-top">
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<small>portfolio.py</small>
+</div>
+      <pre>
+<code>
+<b>class</b> <span>IgorMota</span>:
+    foco = [
+        "sistemas de negócio",
+        "análise de dados",
+        "automação de processos"
+    ]
+
+    <b>def</b> <span>construir</span>(self):
+        <b>return</b> "impacto mensurável"</code>
+</pre>
+    </div>
+  </section>
+
+  <!-- SOBRE: une a experiência de negócio à transição para tecnologia. -->
+  <section id="sobre" class="section-block about-section">
+    <header class="section-title">
+<p>01 · SOBRE MIM</p>
+<h2>Negócio por experiência.<br>
+<span>Tecnologia por escolha.</span>
+</h2>
+</header>
+    <div class="about-grid">
+      <div>
+        <p class="about-lead">Sou <strong>{{ profile.name if profile else 'Igor Mota' }}</strong>, profissional de controladoria, formado em Ciências Contábeis e Análise e Desenvolvimento de Sistemas.</p>
+        <p>{{ profile.bio if profile and profile.bio else 'Transformo experiência com regras, controles e dados empresariais em aplicações Python, APIs e análises acionáveis.' }}</p>
+        <blockquote>Meu diferencial não é apenas programar: é compreender o problema de negócio antes de escrever a solução.</blockquote>
+      </div>
+      <div class="timeline">
+<article>
+<time>2025 — atual</time>
+<h3>Assistente de Controladoria</h3>
+<p>Integração e conferência fiscal, faturamento, relatórios e ERP RM.</p>
+</article>
+<article>
+<time>Formação</time>
+<h3>Contabilidade + ADS</h3>
+<p>Base multidisciplinar para aplicações empresariais.</p>
+</article>
+<article>
+<time>Próximo capítulo</time>
+<h3>Desenvolvimento Python & Dados</h3>
+<p>Sistemas ERP, automação, APIs e inteligência analítica.</p>
+</article>
+</div>
+    </div>
+  </section>
+
+  <!-- HABILIDADES: stack técnica apresentada com níveis honestos. -->
+  <section id="habilidades" class="section-block skills-section">
+    <header class="section-title">
+<p>02 · STACK TÉCNICA</p>
+<h2>Ferramentas com <span>propósito.</span>
+</h2>
+</header>
+    <div class="skills-grid">
+<article class="featured">
+<small>01 · BASE PRINCIPAL</small>
+<h3>Python</h3>
+<p>Funções, módulos, POO, arquivos, SQLite, CRUD e aplicações web.</p>
+<span>Intermediário em evolução</span>
+</article>
+<article>
+<small>02 · WEB</small>
+<h3>Flask</h3>
+<p>Jinja, formulários, Blueprints, Factory, ORM e testes.</p>
+<span>Aplicando em projetos</span>
+</article>
+<article>
+<small>03 · DADOS</small>
+<h3>SQL · Pandas</h3>
+<p>Consultas, limpeza, exploração e indicadores empresariais.</p>
+<span>Prática orientada a negócio</span>
+</article>
+<article>
+<small>04 · VISUALIZAÇÃO</small>
+<h3>Power BI</h3>
+<p>Modelagem, medidas e dashboards executivos.</p>
+<span>Experiência avançada</span>
+</article>
+</div>
+    <div class="stack-strip">{% for item in ['Flask','Django','FastAPI','Bootstrap','PostgreSQL','Docker','GitHub','Pytest'] %}<span>{{ item }}</span>{% endfor %}</div>
+  </section>
+
+  <!-- PROJETOS: este loop cria um card para cada registro do banco. -->
+  <section id="projetos" class="section-block projects-section">
+    <header class="section-title project-header">
+<div>
+<p>03 · PROJETOS</p>
+<h2>Problemas reais.<br>
+<span>Soluções demonstráveis.</span>
+</h2>
+</div>
+<div>
+<button data-rail="prev" aria-label="Projetos anteriores">←</button>
+<button data-rail="next" aria-label="Próximos projetos">→</button>
+</div>
+</header>
+    <div class="project-rail">
+      {% for project in projects %}
+        <!-- Jinja acessa os atributos do model Project recebido da rota. -->
+        <article class="project-card" style="--accent: {{ project.accent }}">
+          <div class="project-index">{{ '%02d'|format(loop.index) }}</div>
+          <div class="project-cover">
+            {% if project.image_filename and project.image_filename.startswith('asset:') %}<img src="{{ url_for('main.portfolio_asset', filename=project.image_filename[6:]) }}" alt="Tela do projeto {{ project.title }}">{% elif project.image_filename %}<img src="{{ url_for('static', filename='uploads/' ~ project.image_filename) }}" alt="Tela do projeto {{ project.title }}">{% else %}<div class="mock-chart">
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+<i>
+</i>
+</div>{% endif %}
+          </div>
+          <small>{{ project.eyebrow }}</small>
+<h3>{{ project.title }}</h3>
+<p>{{ project.description }}</p>
+          <div class="tags">{% for item in project.stack.split(',') %}<span>{{ item.strip() }}</span>{% endfor %}</div>
+          <footer>
+<span class="status">{{ project.status }}</span>
+<div>{% if project.github_url %}<a target="_blank" rel="noopener" href="{{ project.github_url }}">Código</a>{% endif %}{% if project.video_url %}<a target="_blank" rel="noopener" href="{{ project.video_url }}">Vídeo</a>{% endif %}{% if project.live_url %}<a target="_blank" rel="noopener" href="{{ project.live_url }}">Testar ↗</a>{% endif %}</div>
+</footer>
+        </article>
+      {% else %}
+        <article class="empty-card">
+<h3>Nenhum projeto publicado ainda.</h3>
+<p>O administrador pode cadastrar o primeiro projeto sem editar este template.</p>
+</article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- ARTIGOS: conteúdo publicado e atividade pública obtida do GitHub. -->
+  <section id="artigos" class="section-block articles-section">
+    <header class="section-title">
+<p>04 · CONTEÚDO</p>
+<h2>Aprender, resolver, <span>documentar.</span>
+</h2>
+</header>
+    <div class="github-activity">
+      <div>
+<small>ATIVIDADE PÚBLICA RECENTE</small>
+<h3>{{ 'github.com/' ~ github_activity.username if github_activity.username else 'Conecte o GitHub pelo painel' }}</h3>
+<p>{{ github_activity.total }} eventos públicos recentes</p>
+</div>
+      <div class="contribution-grid">{% for day in github_activity.days %}<i class="level-{{ [day.count, 4]|min }}" title="{{ day.date }}: {{ day.count }} evento(s)">
+</i>{% else %}{% for _ in range(49) %}<i>
+</i>{% endfor %}{% endfor %}</div>
+      {% if profile and profile.github_url %}<a target="_blank" rel="noopener" href="{{ profile.github_url }}">Abrir perfil ↗</a>{% endif %}
+    </div>
+    <div class="article-grid">
+      {% for article in articles %}<article>
+<small>ARTIGO</small>
+<h3>{{ article.title }}</h3>
+<p>{{ article.summary }}</p>
+<a href="#">Ler tutorial →</a>
+</article>{% else %}<article>
+<small>FLASK</small>
+<h3>O primeiro artigo será publicado pelo painel</h3>
+<p>Documente bugs, decisões e aprendizados com contexto, solução e resultado verificável.</p>
+</article>{% endfor %}
+    </div>
+  </section>
+
+  <!-- CONTATO: links só aparecem quando foram preenchidos no painel. -->
+  <section id="contato" class="section-block contact-section">
+<div>
+<p class="kicker">
+<i>
+</i> VAMOS CONVERSAR</p>
+<h2>Tem um problema de negócio que pode virar uma <em>boa solução?</em>
+</h2>
+<p>Busco oportunidades em desenvolvimento Python, sistemas empresariais e análise de dados.</p>
+<div class="hero-actions">{% if profile and profile.email %}<a class="btn-primary-custom" href="mailto:{{ profile.email }}">Enviar e-mail</a>{% endif %}{% if profile and profile.linkedin_url %}<a class="btn-ghost-custom" target="_blank" rel="noopener" href="{{ profile.linkedin_url }}">LinkedIn ↗</a>{% endif %}{% if profile and profile.github_url %}<a class="btn-ghost-custom" target="_blank" rel="noopener" href="{{ profile.github_url }}">GitHub ↗</a>{% endif %}</div>
+</div>
+</section>
+  <footer class="site-footer">
+<span>© 2026 Igor Mota</span>
+<a href="#inicio">Voltar ao topo ↑</a>
+</footer>
+</main>
+{% endblock %}

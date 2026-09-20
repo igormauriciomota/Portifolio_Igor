@@ -1,0 +1,3 @@
+# Dependências da aplicação e ferramentas de teste/qualidade.
+-r requirements.txt
+-r flask-source/requirements-dev.txt

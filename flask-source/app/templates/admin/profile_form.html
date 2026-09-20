@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Editar perfil | Portfólio{% endblock %}
+{% block body %}
+<main class="form-page">
+<form method="post" enctype="multipart/form-data" class="editor-card">{{ form.hidden_tag() }}<div class="editor-heading">
+<div>
+<p>PERFIL</p>
+<h1>Editar dados públicos</h1>
+</div>
+<a href="{{ url_for('admin.dashboard') }}">← Voltar</a>
+</div>
+<div class="editor-grid">{% for field in form if field.name not in ['csrf_token','submit'] %}<label class="{{ 'wide' if field.type in ['TextAreaField','FileField'] else '' }}">{{ field.label }}{{ field(class='form-control') }}{% for error in field.errors %}<small>{{ error }}</small>{% endfor %}</label>{% endfor %}</div>{{ form.submit(class='btn-primary-custom border-0') }}</form>
+</main>
+{% endblock %}
