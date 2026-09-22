@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Painel | Portfólio{% endblock %}
+{% block body %}
+<main class="admin-shell" id="conteudo">
+  <header class="admin-topbar">
+    <a class="brand" href="{{ url_for('main.index') }}"><span class="brand-mark">IM</span><span><strong>Painel do Portfólio</strong><small>Conteúdo protegido</small></span></a>
+    <div class="admin-user"><span><strong>{{ current_user.email }}</strong><small>Administrador</small></span><a href="{{ url_for('main.index') }}">Ver site ↗</a><form action="{{ url_for('auth.logout') }}" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="admin-logout">Sair</button></form></div>
+  </header>
+  <div class="admin-container">
+    <div class="admin-intro"><div><p>ÁREA PROTEGIDA</p><h1>Conteúdo, projetos e artigos.</h1></div><div class="admin-form-actions"><a class="button button-ghost" href="{{ url_for('admin.profile_edit') }}">Editar perfil</a><a class="button button-primary" href="{{ url_for('admin.project_create') }}">Novo projeto</a></div></div>
+
+    <section class="admin-card">
+      <div class="admin-card-title"><span>01</span><div><h2>Projetos</h2><p>Cards, estudos de caso, imagens, links e vídeo.</p></div></div>
+      <div class="admin-project-list">
+        {% for project in projects %}
+          <article><div><span>{{ project.eyebrow }}</span><h3>{{ project.title }}</h3><p>{{ project.status }} · {{ project.stack }}</p></div><div class="admin-project-actions"><a href="{{ url_for('main.project_detail', slug=project.slug) }}" target="_blank">Visualizar</a><a href="{{ url_for('admin.project_edit', project_id=project.id) }}">Editar</a><form action="{{ url_for('admin.project_delete', project_id=project.id) }}" method="post" data-confirm="Excluir este projeto?"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit">Excluir</button></form></div></article>
+        {% else %}<p>Nenhum projeto cadastrado.</p>{% endfor %}
+      </div>
+    </section>
+
+    <section class="admin-card">
+      <div class="admin-card-title"><span>02</span><div><h2>Artigos</h2><p>Conteúdo público para registrar aprendizados e decisões.</p></div><a class="button button-primary admin-card-cta" href="{{ url_for('admin.article_create') }}">Novo artigo</a></div>
+      <div class="admin-project-list">
+        {% for article in articles %}
+          <article><div><span>{{ 'PUBLICADO' if article.published else 'RASCUNHO' }}</span><h3>{{ article.title }}</h3><p>{{ article.summary }}</p></div><div class="admin-project-actions">{% if article.published %}<a href="{{ url_for('main.article_detail', slug=article.slug) }}" target="_blank">Visualizar</a>{% endif %}<a href="{{ url_for('admin.article_edit', article_id=article.id) }}">Editar</a><form action="{{ url_for('admin.article_delete', article_id=article.id) }}" method="post" data-confirm="Excluir este artigo?"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit">Excluir</button></form></div></article>
+        {% else %}<p>Nenhum artigo cadastrado.</p>{% endfor %}
+      </div>
+    </section>
+  </div>
+</main>
+{% endblock %}

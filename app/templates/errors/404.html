@@ -1,0 +1,4 @@
+{% extends "base.html" %}
+{% block title %}Página não encontrada | Igor Mota{% endblock %}
+{% block body %}<main class="error-page" id="conteudo"><span>404</span><h1>Este caminho ainda não existe.</h1><p>Volte ao portfólio ou explore o catálogo de projetos.</p><div><a class="button button-primary" href="{{ url_for('main.index') }}">Voltar ao início</a><a class="button button-ghost" href="{{ url_for('main.projects') }}">Ver projetos</a></div></main>{% endblock %}
+

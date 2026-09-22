@@ -1,0 +1,4 @@
+{% extends "base.html" %}
+{% block title %}Erro interno | Igor Mota{% endblock %}
+{% block body %}<main class="error-page" id="conteudo"><span>500</span><h1>O sistema encontrou um imprevisto.</h1><p>A operação foi interrompida com segurança. Tente novamente em alguns instantes.</p><a class="button button-primary" href="{{ url_for('main.index') }}">Voltar ao início</a></main>{% endblock %}
+

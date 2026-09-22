@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} | Portfólio{% endblock %}
+{% block body %}
+<main class="admin-shell" id="conteudo">
+  <header class="admin-topbar"><a class="brand" href="{{ url_for('admin.dashboard') }}"><span class="brand-mark">IM</span><span><strong>{{ title }}</strong><small>Conteúdo técnico</small></span></a><a class="technology-back" href="{{ url_for('admin.dashboard') }}">← Voltar ao painel</a></header>
+  <div class="admin-container"><section class="admin-card"><div class="admin-card-title"><span>01</span><div><h2>Texto e publicação</h2><p>Explique o problema, a decisão tomada e o resultado observado.</p></div></div>
+    <form method="post" class="admin-form">{{ form.hidden_tag() }}{% for field in form if field.name not in ['csrf_token','submit'] %}<label class="{{ 'wide' if field.type in ['TextAreaField','BooleanField'] else '' }}">{{ field.label }}{% if field.type == 'BooleanField' %}<span class="checkbox-row">{{ field() }} Tornar visível ao público</span>{% else %}{{ field(rows='12' if field.name == 'body' else '4') }}{% endif %}{% for error in field.errors %}<span class="field-error">{{ error }}</span>{% endfor %}</label>{% endfor %}<div class="admin-form-action">{{ form.submit(class='button button-primary') }}</div></form>
+  </section></div>
+</main>
+{% endblock %}
+

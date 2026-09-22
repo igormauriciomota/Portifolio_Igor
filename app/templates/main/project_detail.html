@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block title %}{{ project.title }} | Projeto{% endblock %}
+{% block description %}{{ project.description }}{% endblock %}
+{% block body %}
+<main class="project-detail" id="conteudo" style="--project-accent: {{ project.accent }}">
+  <header class="projects-nav">
+    <a class="brand" href="{{ url_for('main.index') }}"><span class="brand-mark">IM</span><span><strong>Igor Mota</strong><small>Estudo de caso</small></span></a>
+    <nav><a href="{{ url_for('main.projects') }}">Todos os projetos</a><a class="technology-back" href="{{ url_for('main.index') }}">← Portfólio</a></nav>
+  </header>
+
+  <section class="project-detail-hero">
+    <div class="project-detail-copy">
+      <a href="{{ url_for('main.projects') }}">← Todos os projetos</a>
+      <p>{{ project.eyebrow }} · {{ current_year }}</p>
+      <h1>{{ project.title }}</h1>
+      <strong>{{ project.description }}</strong>
+      <div><span>{{ project.status }}</span>{% if 'Django' in project.stack %}<img src="{{ url_for('static', filename='assets/django-logo-positive.png') }}" alt="Django">{% endif %}</div>
+    </div>
+
+    <div class="project-detail-cover{% if 'Django' in project.stack %} is-django{% endif %}{% if project.image_filename %} has-product-screen{% endif %}">
+      {% if project.image_filename %}
+        <img src="{{ media_url(project.image_filename) }}" alt="Tela principal do projeto {{ project.title }}">
+      {% elif 'Django' in project.stack %}
+        <img src="{{ url_for('static', filename='assets/django-logo-positive.png') }}" alt="Django"><p>Aplicação empresarial em Python</p>
+      {% else %}
+        <div class="detail-ui" aria-hidden="true"><div></div><div><i></i><i></i><i></i><i></i></div><span></span><span></span></div>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="project-case-content">
+    <div class="case-intro">
+      <div><p>SOBRE O PROJETO</p><h2>Da necessidade à solução.</h2></div>
+      <dl><div><dt>Status</dt><dd>{{ project.status }}</dd></div><div><dt>Foco</dt><dd>{{ project.eyebrow }}</dd></div><div><dt>Tecnologias</dt><dd>{{ project.stack }}</dd></div></dl>
+    </div>
+
+    <div class="case-story">
+      <article><span>01 · CONTEXTO</span><h3>O problema observado</h3><p>{{ project.problem or 'O projeto nasceu para organizar o processo, reduzir etapas manuais e melhorar a confiabilidade das informações.' }}</p></article>
+      <article><span>02 · SOLUÇÃO</span><h3>Como o projeto responde</h3><p>{{ project.solution or project.description }}</p></article>
+    </div>
+    <div class="case-story">
+      <article><span>03 · DESTAQUES</span><h3>O que será demonstrado</h3><ul>{% for item in project.highlight_items %}<li>{{ item }}</li>{% else %}<li>Arquitetura organizada</li><li>Validação das regras</li><li>Evolução documentada</li>{% endfor %}</ul></article>
+      <article><span>04 · INTEGRAÇÕES</span><h3>Como as partes se conectam</h3><ul>{% for item in project.integration_items %}<li>{{ item }}</li>{% else %}{% for item in project.stack_items %}<li>{{ item }} integrado à arquitetura</li>{% endfor %}{% endfor %}</ul></article>
+    </div>
+
+    <div class="case-stack"><p>STACK UTILIZADA</p><div>{% for item in project.stack_items %}<span>{{ item }}</span>{% endfor %}</div></div>
+
+    {% if progress %}
+      {% set max_count = (progress.days|map(attribute='count')|max) if progress.days else 1 %}
+      <section class="github-progress" aria-labelledby="github-progress-title" data-github-progress>
+        <div class="github-progress-heading">
+          <div><p>EVOLUÇÃO VERIFICÁVEL NO GITHUB</p><h2 id="github-progress-title">Cada commit registra <span>um passo do aprendizado.</span></h2></div>
+          <a href="{{ progress.repository_url }}" target="_blank" rel="noopener">Abrir repositório no GitHub ↗</a>
+        </div>
+
+        <div class="github-progress-layout">
+          <div class="github-progress-main">
+            <div class="github-live-bar"><span><i></i> {{ 'GITHUB AO VIVO' if progress.source == 'live' else 'DADOS DO REPOSITÓRIO' }}</span><small>Atualização automática a cada 5 minutos</small></div>
+            <div class="github-kpis">
+              <article><span>COMMITS</span><strong data-github-commits>{{ progress.commit_count if progress.commit_count is not none else '—' }}</strong><small>histórico mapeado</small></article>
+              <article><span>DIAS ATIVOS</span><strong data-github-active>{{ progress.days|selectattr('count','gt',0)|list|length }}</strong><small>nos últimos 35 dias</small></article>
+              <article><span>MÓDULOS</span><strong>{{ progress.module_count }}</strong><small>trilha progressiva</small></article>
+              <article><span>ÚLTIMO REGISTRO</span><strong class="is-date" data-github-latest>{{ progress.latest_commit_at[:10] if progress.latest_commit_at else '—' }}</strong><small>branch {{ progress.default_branch or 'main' }}</small></article>
+            </div>
+
+            <div class="github-chart-card">
+              <div><span>ATIVIDADE POR DIA</span><b>commits na janela atual</b></div>
+              <div class="github-chart" role="img" aria-label="Gráfico de commits por dia nos últimos 35 dias" data-github-chart>
+                {% for day in progress.days %}<span class="{{ 'has-commits' if day.count else '' }}" style="--commit-height: {{ [7, (day.count / ([max_count,1]|max) * 100)|round]|max }}%" title="{{ day.date }}: {{ day.count }} commit(s)"><i></i></span>{% else %}{% for _ in range(35) %}<span style="--commit-height: 7%"><i></i></span>{% endfor %}{% endfor %}
+              </div>
+              <div class="github-chart-axis"><span>35 dias atrás</span><span>Hoje</span></div>
+            </div>
+
+            <div class="github-commits" data-github-list>
+              <div class="github-commits-title"><span>COMMITS RECENTES</span><small>mensagens reais do repositório</small></div>
+              {% for commit in progress.recent_commits %}
+                <a href="{{ commit.url }}" target="_blank" rel="noopener"><code>{{ commit.sha }}</code><span>{{ commit.message }}</span><time>{{ commit.date[:10] if commit.date else '—' }}</time><i>↗</i></a>
+              {% else %}<div class="github-commits-empty">Aguardando os dados mais recentes do GitHub.</div>{% endfor %}
+            </div>
+          </div>
+
+          <aside class="github-repository-map">
+            <div class="repository-image"><img src="{{ url_for('static', filename='assets/python-practice-lab-structure.webp') }}" alt="Estrutura de pastas do Python Practice Lab no VS Code"><span>ESTRUTURA REAL DO REPOSITÓRIO</span></div>
+            <p>O laboratório separa cada competência para tornar a evolução fácil de revisar, testar e demonstrar.</p>
+            <div class="repository-cycle"><span>COMPREENDER</span><i>→</i><span>PRATICAR</span><i>→</i><span>TESTAR</span><i>→</i><span>REGISTRAR</span></div>
+          </aside>
+        </div>
+
+        <div class="learning-roadmap">
+          <div class="learning-roadmap-heading"><p>TRILHA DE TREINAMENTO</p><h3>Do fundamento à <span>engenharia de software.</span></h3></div>
+          <div>
+            {% for number, title, range, text in [('01','Fundamentos e lógica','01–06','Sintaxe, strings, coleções, condicionais, laços e funções.'),('02','Domínio da linguagem','07–13','Erros, arquivos, módulos, ambientes, POO e biblioteca padrão.'),('03','Pensamento computacional','14–15','Algoritmos, complexidade e estruturas de dados.'),('04','Qualidade e persistência','16–18','Pytest, modelagem relacional, SQL e SQLite.'),('05','Arquitetura e segurança','19–20','CRUD em camadas, autenticação, permissões e práticas seguras.')] %}
+              <article><span>{{ number }}</span><small>MÓDULOS {{ range }}</small><h4>{{ title }}</h4><p>{{ text }}</p></article>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+    {% endif %}
+
+    {% if project.video_url %}
+      <section class="case-video">
+        <div><p>DEMONSTRAÇÃO DO PROJETO</p><h2>30 segundos pelas funções principais.</h2><span>Visão geral, módulos operacionais e indicadores do sistema.</span></div>
+        {% set video = media_url(project.video_url) %}
+        {% if video.lower().endswith(('.mp4','.webm')) %}
+          <video controls preload="metadata" poster="{{ media_url(project.image_filename) }}" src="{{ video }}" aria-label="Demonstração de {{ project.title }}"></video>
+        {% else %}
+          <a class="button button-primary" href="{{ video }}" target="_blank" rel="noopener">Assistir demonstração ↗</a>
+        {% endif %}
+      </section>
+    {% endif %}
+
+    <div class="case-links">
+      <div><p>TELA INICIAL E ACESSO</p><h2>Código, demonstração e publicação.</h2><span>Consulte o repositório público, assista ao vídeo e acompanhe a futura publicação do sistema.</span></div>
+      <div>
+        {% if project.github_url %}<a class="button button-ghost" href="{{ project.github_url }}" target="_blank" rel="noopener">GitHub ↗</a>{% else %}<span class="case-link-pending">GitHub · link em breve</span>{% endif %}
+        {% if project.live_url %}<a class="button button-primary" href="{{ project.live_url }}">Abrir projeto ↗</a>{% else %}<span class="case-link-pending">Site · publicação em breve</span>{% endif %}
+        {% if project.video_url %}<a class="button button-ghost" href="{{ media_url(project.video_url) }}" target="_blank" rel="noopener">Abrir vídeo ↗</a>{% endif %}
+        <a class="button button-ghost" href="{{ url_for('main.projects') }}">Outros projetos</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="technology-footer"><span>© {{ current_year }} Igor Mota</span><a href="{{ url_for('main.index') }}#contato">Conversar sobre uma oportunidade ↗</a></footer>
+</main>
+{% endblock %}
+

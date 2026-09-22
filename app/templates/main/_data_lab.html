@@ -1,0 +1,60 @@
+<section class="data-lab" id="laboratorio" aria-labelledby="data-lab-title" data-data-lab>
+  <div class="data-lab-intro">
+    <div><p>LABORATÓRIO INTERATIVO</p><h2 id="data-lab-title">Transforme uma planilha em decisões visuais.</h2></div>
+    <p>Importe CSV, XLS ou XLSX. A demonstração identifica campos numéricos, calcula indicadores e explica quatro níveis de análise.</p>
+  </div>
+
+  <div class="data-upload-panel">
+    <div><span>FONTE ATUAL</span><strong data-source-name>Dados de demonstração</strong><small>Primeira aba · limite de 10.000 linhas e 8 MB</small></div>
+    <label class="data-file-button">Importar planilha<input type="file" accept=".csv,.xls,.xlsx,text/csv" data-file-input></label>
+    <button type="button" data-demo-reset>Usar demonstração</button>
+  </div>
+  <p class="data-privacy">🔒 Processamento local: seus dados permanecem no navegador e não são armazenados pelo portfólio.</p>
+  <p class="data-status" aria-live="polite" data-data-status>Dashboard de demonstração pronto para explorar.</p>
+
+  <div class="data-controls">
+    <label>Métrica numérica<select data-metric-select></select></label>
+    <label>Dimensão para comparar<select data-category-select></select></label>
+  </div>
+
+  <div data-dashboard>
+    <div class="data-kpis">
+      <article><span>LINHAS</span><strong data-kpi-rows>12</strong><small data-kpi-columns>5 colunas encontradas</small></article>
+      <article><span data-kpi-total-label>TOTAL · RECEITA</span><strong data-kpi-total>—</strong><small data-kpi-average>Média —</small></article>
+      <article><span>QUALIDADE</span><strong data-kpi-quality>100%</strong><small>Dados preenchidos</small></article>
+      <article><span>TENDÊNCIA</span><strong class="positive" data-kpi-trend>—</strong><small>Variação média por registro</small></article>
+    </div>
+
+    <div class="data-visuals">
+      <article class="data-chart-card">
+        <header><div><span>EVOLUÇÃO</span><h3 data-line-title>Receita por registro</h3></div><b data-trend-label>crescimento</b></header>
+        <svg viewBox="0 0 600 220" role="img" aria-label="Linha de evolução da métrica selecionada">
+          <defs><linearGradient id="lineFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#60dfff" stop-opacity=".32"></stop><stop offset="1" stop-color="#60dfff" stop-opacity="0"></stop></linearGradient></defs>
+          <path class="data-area" data-chart-area d=""></path>
+          <path class="data-line" data-chart-line d=""></path>
+        </svg>
+        <div class="chart-scale"><span data-chart-min>Mín. —</span><span data-chart-max>Máx. —</span></div>
+      </article>
+
+      <article class="data-chart-card">
+        <header><div><span>COMPARAÇÃO</span><h3 data-group-title>Receita por Região</h3></div><b data-group-count>top 4</b></header>
+        <div class="category-bars" data-category-bars></div>
+      </article>
+    </div>
+
+    <div class="analysis-levels">
+      <article><span>01 · DESCRITIVA</span><h3>O que aconteceu?</h3><p data-analysis-descriptive></p><small>Totais, médias, distribuição e indicadores.</small></article>
+      <article><span>02 · DIAGNÓSTICA</span><h3>Onde investigar?</h3><p data-analysis-diagnostic></p><small>Segmentação e anomalias indicam hipóteses — não provam causa.</small></article>
+      <article><span>03 · PREDITIVA</span><h3>O que pode acontecer?</h3><p data-analysis-predictive></p><small>Estimativa educacional; previsão real exige validação e contexto.</small></article>
+      <article><span>04 · PRESCRITIVA</span><h3>Qual ação considerar?</h3><p data-analysis-prescriptive></p><small>Recomendação orientativa, nunca uma decisão automática.</small></article>
+    </div>
+
+    <div class="data-preview">
+      <header><div><span>AMOSTRA DOS DADOS</span><h3>Primeiras linhas processadas</h3></div><small data-preview-count></small></header>
+      <div><table><thead data-table-head></thead><tbody data-table-body></tbody></table></div>
+    </div>
+  </div>
+
+  <div class="data-empty" data-data-empty hidden>A planilha precisa ter ao menos uma coluna numérica para gerar as métricas.</div>
+</section>
+

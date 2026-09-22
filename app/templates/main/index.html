@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+{% from "macros/icons.html" import technology_icon, status_badge %}
+{% block body %}
+<div class="site-shell">
+  <aside class="sidebar" aria-label="Navegação principal">
+    <a class="brand" href="#inicio" aria-label="Ir para o início">
+      <span class="brand-mark">IM</span>
+      <span><strong>{{ profile.name }}</strong><small>Python • Dados • Negócios</small></span>
+    </a>
+
+    <div class="profile-orbit" aria-label="Foto de {{ profile.name }}">
+      <img class="profile-photo" src="{{ media_url(profile.photo_filename) }}" width="100" height="100" alt="Retrato de rosto e ombros de {{ profile.name }}">
+      <span class="orbit-dot"></span>
+    </div>
+    <p class="sidebar-role">{{ profile.headline }}</p>
+    <p class="sidebar-location">{{ profile.location }}</p>
+
+    <nav class="side-nav">
+      {% for id, label in [('inicio','Início'),('sobre','Sobre'),('habilidades','Habilidades'),('projetos','Projetos'),('codigo','Código-fonte'),('artigos','Artigos'),('contato','Contato')] %}
+        <a href="#{{ id }}"{% if loop.first %} class="active"{% endif %}><span>0{{ loop.index }}</span>{{ label }}</a>
+      {% endfor %}
+    </nav>
+
+    {% if profile.resume_filename %}
+      <a class="resume-link" href="{{ media_url(profile.resume_filename) }}" download>Baixar currículo <span>↓</span></a>
+    {% else %}
+      <a class="resume-link" href="{{ source_download_url }}" target="_blank" rel="noopener">Baixar código-fonte <span>↗</span></a>
+    {% endif %}
+    {% if current_user.is_authenticated %}
+      <a class="resume-link admin-shortcut" href="{{ url_for('admin.dashboard') }}">Gerenciar conteúdo <span>↗</span></a>
+    {% endif %}
+    <div class="sidebar-footer"><span class="availability-dot"></span>Aberto a oportunidades em tecnologia</div>
+  </aside>
+
+  <header class="mobile-header">
+    <a class="brand" href="#inicio"><span class="brand-mark">IM</span><strong>Igor Mota</strong></a>
+    <a class="mobile-cta" href="#contato">Contato</a>
+  </header>
+
+  <main class="content" id="conteudo">
+    <section class="hero section" id="inicio">
+      <img class="hero-background-image" src="{{ url_for('static', filename='assets/igor-portfolio-realistic-v2.webp') }}" width="1672" height="941" alt="" aria-hidden="true" fetchpriority="high">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow-one" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow-two" aria-hidden="true"></div>
+
+      <div class="hero-copy">
+        <p class="kicker"><span></span> Portfólio profissional · {{ current_year }}</p>
+        <h1>Tecnologia para transformar<em> dados em decisões.</em></h1>
+        <p class="hero-lead">Uno experiência em controladoria e contabilidade à programação para criar sistemas de negócio claros, auditáveis e úteis.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#projetos">Explorar projetos <span aria-hidden="true">↗</span></a>
+          <button class="button button-hologram" type="button" data-hologram-open><i aria-hidden="true"></i> Entrar no holograma</button>
+          <a class="button button-ghost" href="#sobre">Conhecer trajetória</a>
+        </div>
+        <dl class="hero-metrics">
+          <div><dt>02</dt><dd>áreas conectadas<br>Python + negócios</dd></div>
+          <div><dt>{{ '%02d'|format(projects|length) }}</dt><dd>projetos estratégicos<br>e estudos de caso</dd></div>
+          <div><dt>01</dt><dd>objetivo central<br>resolver problemas reais</dd></div>
+        </dl>
+      </div>
+
+      <nav class="hero-tech-paths" aria-label="Explorar competências">
+        <a class="tech-path-python" href="{{ url_for('main.technology', slug='python') }}">{{ technology_icon('python') }}<b>Python</b><small>Web · APIs · automação</small><i>↗</i></a>
+        <a class="tech-path-django" href="{{ url_for('main.technology', slug='django') }}">{{ technology_icon('django') }}<b>Django</b><small>ERP · portais · integrações</small><i>↗</i></a>
+        <a class="tech-path-sql" href="{{ url_for('main.technology', slug='sql') }}">{{ technology_icon('sql') }}<b>SQL</b><small>Modelagem · consultas</small><i>↗</i></a>
+        <a class="tech-path-power-bi" href="{{ url_for('main.technology', slug='power-bi') }}">{{ technology_icon('power-bi') }}<b>Power BI</b><small>Dashboard interativo</small><i>↗</i></a>
+        <a class="tech-path-analytics" href="{{ url_for('main.technology', slug='analise-de-dados') }}">{{ technology_icon('analytics') }}<b>Análise de Dados</b><small>Da pergunta à decisão</small><i>↗</i></a>
+      </nav>
+      <a class="scroll-cue" href="#sobre"><span>SCROLL</span><i></i></a>
+    </section>
+
+    <section class="section about" id="sobre">
+      <div class="section-heading">
+        <p>01 · SOBRE MIM</p>
+        <h2>Negócio por experiência.<br><span>Tecnologia por escolha.</span></h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-story">
+          <p class="lead-paragraph">Sou <strong>{{ profile.name }}</strong>, profissional de controladoria e formado em Ciências Contábeis e Análise e Desenvolvimento de Sistemas.</p>
+          <p>Minha transição para tecnologia nasce da prática: entendo os dados, regras e controles que sustentam uma empresa e transformo esse repertório em aplicações Python, APIs e análises acionáveis.</p>
+          <p>Gosto de resolver problemas que reduzem trabalho manual, deixam números rastreáveis e ajudam pessoas a decidir com mais segurança.</p>
+          <div class="quote-card"><span>“</span><p>Meu diferencial não é apenas programar: é compreender o problema de negócio antes de escrever a solução.</p></div>
+        </div>
+        <div class="timeline" aria-label="Trajetória profissional">
+          <article><time>Experiência</time><h3>Contabilidade e controladoria</h3><p>Escritórios de contabilidade e advocacia, Banco do Brasil, supermercado e rotinas de controladoria.</p></article>
+          <article><time>Formação · 2025</time><h3>Contabilidade + ADS</h3><p>Base multidisciplinar para criar tecnologia aplicada a processos empresariais.</p></article>
+          <article><time>Próximo capítulo</time><h3>Desenvolvimento Python &amp; Dados</h3><p>ERPs, automação, APIs, inteligência artificial e análise de dados.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section skills" id="habilidades">
+      <div class="section-heading split-heading">
+        <div><p>02 · STACK TÉCNICA</p><h2>Ferramentas com<br><span>propósito.</span></h2></div>
+        <p class="heading-note">Níveis descritos com honestidade: o que já aplico, o que estou consolidando e o que integra meu roadmap.</p>
+      </div>
+      <div class="skill-board">
+        <a class="skill-featured skill-python" href="{{ url_for('main.technology', slug='python') }}"><div class="skill-number">01</div><p class="skill-label">Base principal</p>{{ technology_icon('python', 'skill-tech-icon') }}<h3>Python</h3><p>Fundamentos, funções, módulos, POO, arquivos, SQLite, CRUD e evolução para aplicações web.</p><span class="level-tag">Explorar aplicações ↗</span></a>
+        <a class="skill-api" href="{{ url_for('main.technology', slug='python') }}"><div class="skill-number">02</div><p class="skill-label">Web</p>{{ technology_icon('api', 'skill-tech-icon') }}<h3>Flask · APIs</h3><p>Rotas, Jinja, templates, formulários, Blueprints e arquitetura modular.</p><span class="level-tag">Ver desenvolvimento web ↗</span></a>
+        <a class="skill-django" href="{{ url_for('main.technology', slug='django') }}"><div class="skill-number">03</div><p class="skill-label">Framework completo</p>{{ technology_icon('django', 'skill-tech-icon') }}<h3>Django</h3><p>ORM, autenticação, administração, segurança e APIs para aplicações empresariais escaláveis.</p><span class="level-tag">Explorar Django ↗</span></a>
+        <a class="skill-sql" href="{{ url_for('main.technology', slug='sql') }}"><div class="skill-number">04</div><p class="skill-label">Dados</p>{{ technology_icon('sql', 'skill-tech-icon') }}<h3>SQL · Pandas</h3><p>Consultas, limpeza, exploração, indicadores e integração com Excel.</p><span class="level-tag">Entender a camada de dados ↗</span></a>
+        <a class="skill-power-bi" href="{{ url_for('main.technology', slug='power-bi') }}"><div class="skill-number">05</div><p class="skill-label">Visualização</p>{{ technology_icon('power-bi', 'skill-tech-icon') }}<h3>Power BI</h3><p>Modelagem, medidas, dashboards executivos e comunicação visual.</p><span class="level-tag">Testar laboratório de dados ↗</span></a>
+      </div>
+      <div class="stack-strip" aria-label="Tecnologias do roadmap">{% for item in ['Flask','Django','FastAPI','Bootstrap','PostgreSQL','Docker','GitHub','Pytest'] %}<span>{{ item }}</span>{% endfor %}</div>
+    </section>
+
+    <section class="section projects" id="projetos">
+      <div class="section-heading project-heading">
+        <div><p>03 · PROJETOS</p><h2>Problemas reais.<br><span>Soluções demonstráveis.</span></h2></div>
+        <div class="project-heading-actions">
+          <a class="button button-ghost" href="{{ url_for('main.projects') }}">Ver todos os projetos ↗</a>
+          <div class="rail-controls" aria-label="Controles do carrossel"><button type="button" data-rail="prev" aria-label="Projetos anteriores">←</button><button type="button" data-rail="next" aria-label="Próximos projetos">→</button></div>
+        </div>
+      </div>
+
+      <div class="project-rail">
+        {% for project in projects %}
+          <article class="project-card" style="--project-accent: {{ project.accent }}">
+            <div class="project-index">{{ '%02d'|format(loop.index) }}</div>
+            <a href="{{ url_for('main.project_detail', slug=project.slug) }}" class="project-visual{% if project.image_filename %} project-visual-real{% endif %}" aria-label="Abrir estudo de caso {{ project.title }}">
+              {% if project.image_filename %}
+                <img class="project-cover" src="{{ media_url(project.image_filename) }}" loading="lazy" alt="Tela principal do projeto {{ project.title }}">
+              {% else %}
+                <div class="mini-sidebar"></div><div class="mini-panel"><i></i><i></i><i></i><span></span><span></span></div><div class="mini-chart"><b></b><b></b><b></b><b></b></div>
+              {% endif %}
+            </a>
+            <p class="project-eyebrow">{{ project.eyebrow }}</p>
+            <h3>{{ project.title }}</h3>
+            <p class="project-description">{{ project.description }}</p>
+            <div class="project-stack">{% for item in project.stack_items %}<span>{{ item }}</span>{% endfor %}</div>
+            <div class="project-footer">
+              {{ status_badge(project.status) }}
+              <div class="project-links">
+                <a href="{{ url_for('main.project_detail', slug=project.slug) }}">Estudo de caso</a>
+                {% if project.github_url %}<a href="{{ project.github_url }}" target="_blank" rel="noopener">Código</a>{% endif %}
+                {% if project.video_url %}<a href="{{ media_url(project.video_url) }}" target="_blank" rel="noopener">Vídeo</a>{% endif %}
+                {% if project.live_url %}<a href="{{ project.live_url }}">Testar ↗</a>{% endif %}
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+      <p class="rail-note">Arraste horizontalmente ou abra a página completa para explorar todos os projetos.</p>
+    </section>
+
+    <section class="section source-code" id="codigo">
+      <div class="section-heading split-heading">
+        <div><p>04 · CÓDIGO-FONTE</p><h2>Abra, modifique<br><span>e aprenda no VS Code.</span></h2></div>
+        <p class="heading-note">Projeto Flask autônomo e modular, com todos os arquivos, imagens, vídeo, banco SQLite, painel administrativo, laboratório de dados e testes.</p>
+      </div>
+
+      <div class="source-layout">
+        <div class="source-tree" aria-label="Arquitetura do projeto">
+          <div class="source-window-top"><span></span><span></span><span></span><small>portfolio-igor-mota-flask/</small></div>
+          <pre><code>run.py                 # inicia o site
+seed.py                # cria o administrador
+requirements.txt       # dependências
+app/
+├── admin/             # CRUD protegido
+├── auth/              # login e sessão
+├── main/              # páginas e APIs
+├── services/          # GitHub, uploads e seed
+├── static/
+│   ├── assets/        # fotos, vídeo e ícones
+│   ├── css/           # design responsivo
+│   ├── js/            # interações e Data Lab
+│   └── vendor/        # leitura local de planilhas
+└── templates/         # Jinja semântico
+tests/                 # Pytest
+README.md              # instalação e deploy</code></pre>
+        </div>
+
+        <div class="source-guide">
+          <article><span>01</span><div><h3>Visual completo</h3><p>A mesma tela futurista, responsiva e acessível apresentada neste portfólio.</p></div></article>
+          <article><span>02</span><div><h3>Flask profissional</h3><p>Factory, Blueprints, SQLAlchemy, autenticação, CSRF, CRUD, uploads e headers de segurança.</p></div></article>
+          <article><span>03</span><div><h3>Dados interativos</h3><p>Importação local de CSV, XLS e XLSX com métricas, gráficos e níveis de análise.</p></div></article>
+          <article><span>04</span><div><h3>Pronto para GitHub</h3><p>run.py na raiz, documentação, .gitignore, ambiente virtual e testes conferidos.</p></div></article>
+          <a class="button button-primary source-download" href="{{ source_download_url }}" target="_blank" rel="noopener">Abrir código-fonte <span aria-hidden="true">↗</span></a>
+          <p class="source-help">No pacote ZIP disponibilizado no site, descompacte e abra primeiro o README.md.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section articles" id="artigos">
+      <div class="section-heading"><p>05 · APRENDIZADO PÚBLICO</p><h2>Aprender, resolver,<br><span>documentar.</span></h2></div>
+      <div class="github-card">
+        <div><span class="availability-dot"></span><small>ATIVIDADE PÚBLICA RECENTE</small><h3>{% if github_activity.username %}github.com/{{ github_activity.username }}{% else %}GitHub em atualização{% endif %}</h3><p>{{ github_activity.total }} eventos públicos recentes</p></div>
+        <div class="contribution-grid">{% for day in github_activity.days %}<i class="level-{{ [day.count, 4]|min }}" title="{{ day.date }}: {{ day.count }} evento(s)"></i>{% else %}{% for _ in range(49) %}<i></i>{% endfor %}{% endfor %}</div>
+        {% if profile.github_url %}<a href="{{ profile.github_url }}" target="_blank" rel="noopener">Abrir GitHub ↗</a>{% endif %}
+      </div>
+      <div class="article-grid">
+        {% for article in articles %}
+          <article><small>ARTIGO · PYTHON &amp; NEGÓCIOS</small><h3>{{ article.title }}</h3><p>{{ article.summary }}</p><a href="{{ url_for('main.article_detail', slug=article.slug) }}">Ler artigo →</a></article>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="section contact" id="contato">
+      <div class="contact-grid">
+        <div class="section-heading"><p>06 · CONTATO</p><h2>Vamos construir algo<br><span>útil e mensurável?</span></h2><p class="contact-copy">Procuro oportunidades em desenvolvimento Python, automação, sistemas empresariais e análise de dados.</p></div>
+        <div class="contact-links">
+          {% if profile.email %}<a class="contact-card" href="mailto:{{ profile.email }}"><span>EMAIL</span><strong>{{ profile.email }}</strong><small>Responder por e-mail ↗</small></a>{% endif %}
+          {% if profile.linkedin_url %}<a class="contact-card" href="{{ profile.linkedin_url }}" target="_blank" rel="noopener"><span>LINKEDIN</span><strong>Igor Mota</strong><small>Conectar profissionalmente ↗</small></a>{% endif %}
+          {% if profile.github_url %}<a class="contact-card" href="{{ profile.github_url }}" target="_blank" rel="noopener"><span>GITHUB</span><strong>@igormauriciomota</strong><small>Ver código e evolução ↗</small></a>{% endif %}
+          {% if profile.whatsapp_url %}<a class="contact-card" href="{{ profile.whatsapp_url }}" target="_blank" rel="noopener"><span>WHATSAPP</span><strong>Iniciar conversa</strong><small>Abrir WhatsApp ↗</small></a>{% endif %}
+        </div>
+      </div>
+      <footer class="site-footer"><span>© {{ current_year }} Igor Mota</span><span>Python · Dados · Negócios</span><a href="{{ url_for('auth.login') }}">Área administrativa</a></footer>
+    </section>
+  </main>
+</div>
+
+<dialog class="hologram-dialog" aria-labelledby="hologram-title" data-hologram-dialog>
+  <div class="hologram-world">
+    <div class="hologram-grid-floor" aria-hidden="true"></div>
+    <div class="hologram-orb hologram-orb-one" aria-hidden="true"></div>
+    <div class="hologram-orb hologram-orb-two" aria-hidden="true"></div>
+    <header class="hologram-bar">
+      <div class="hologram-brand"><span>IM</span><b>IGOR.DATA</b></div>
+      <p><i></i> NÚCLEO ANALÍTICO ONLINE</p>
+      <button type="button" data-hologram-close>Fechar experiência <span aria-hidden="true">×</span></button>
+    </header>
+
+    <div class="hologram-shell">
+      <div class="hologram-intro"><p>PORTFÓLIO INTERATIVO // DATA EXPERIENCE</p><h2 id="hologram-title">Dados, código e negócio em uma só interface.</h2><span>Explore os módulos e escolha um caminho para continuar no portfólio.</span></div>
+      <div class="hologram-command-grid">
+        <div class="hologram-character" data-hologram-stage>
+          <img src="{{ url_for('static', filename='assets/igor-data-future.webp') }}" alt="Igor Mota em uma interface futurista de dados">
+          <div class="hologram-scan" aria-hidden="true"></div>
+          <div class="hologram-label label-python">{{ technology_icon('python') }}<b>Python</b><small>Automação e APIs</small></div>
+          <div class="hologram-label label-django">{{ technology_icon('django') }}<b>Django</b><small>ERP e portais</small></div>
+          <div class="hologram-label label-bi">{{ technology_icon('power-bi') }}<b>Power BI</b><small>Dashboards</small></div>
+          <div class="hologram-label label-sql">{{ technology_icon('sql') }}<b>SQL</b><small>Dados estruturados</small></div>
+          <div class="hologram-label label-data">{{ technology_icon('analytics') }}<b>Data Analysis</b><small>Insights e decisão</small></div>
+          <div class="hologram-platform" aria-hidden="true"><i></i><i></i><i></i></div>
+        </div>
+
+        <section class="hologram-console" aria-label="Console de tecnologias">
+          <div class="hologram-console-head"><span>TECH CORE / 05 MODULES</span><b>LIVE</b></div>
+          <div class="hologram-modules" role="tablist" aria-label="Tecnologias principais">
+            {% for slug, icon, title, subtitle in [('python','python','Python','Back-end · Automação'),('django','django','Django','ERP · Portais · APIs'),('power-bi','power-bi','Power BI','Dashboards · KPIs'),('sql','sql','SQL','Dados estruturados'),('analise-de-dados','analytics','Análise de Dados','Pandas · Excel · BI')] %}
+              <button type="button" role="tab" aria-selected="{{ 'true' if loop.first else 'false' }}" class="{{ 'is-active' if loop.first else '' }}" data-hologram-module data-href="{{ url_for('main.technology', slug=slug) }}" data-title="{{ title }}" data-description="Abrir o módulo de {{ title }} e conhecer aplicações, método de trabalho e projetos relacionados.">{{ technology_icon(icon) }}<b>{{ title }}</b><small>{{ subtitle }}</small></button>
+            {% endfor %}
+          </div>
+
+          <div class="hologram-readout" aria-live="polite">
+            <div><span>MÓDULO SELECIONADO</span><strong data-hologram-title>Python</strong></div>
+            <p data-hologram-description>Aplicações Flask, APIs, automações e tratamento de dados com código organizado.</p>
+            <a class="hologram-module-link" href="{{ url_for('main.technology', slug='python') }}" data-hologram-link>Abrir página do módulo <span>↗</span></a>
+            <div class="hologram-signal" aria-hidden="true">{% for _ in range(7) %}<i></i>{% endfor %}</div>
+          </div>
+
+          <nav class="hologram-routes" aria-label="Caminhos do portfólio">
+            <p>SELECIONE UM CAMINHO</p>
+            <a href="#sobre" data-hologram-close><em>01</em><span><b>Perfil</b><small>Formação e propósito</small></span><i>↗</i></a>
+            <a href="#habilidades" data-hologram-close><em>02</em><span><b>Habilidades</b><small>Competências técnicas</small></span><i>↗</i></a>
+            <a class="is-featured" href="{{ url_for('main.projects') }}"><em>03</em><span><b>Projetos</b><small>Produtos e estudos de caso</small></span><i>↗</i></a>
+            <a href="#codigo" data-hologram-close><em>04</em><span><b>Código-fonte</b><small>Projeto Flask completo</small></span><i>↗</i></a>
+            <a href="#contato" data-hologram-close><em>05</em><span><b>Contato</b><small>Iniciar conexão</small></span><i>↗</i></a>
+          </nav>
+        </section>
+      </div>
+      <p class="hologram-help">Use mouse, teclado ou toque. O modo de movimento reduzido é respeitado automaticamente.</p>
+    </div>
+  </div>
+</dialog>
+{% endblock %}

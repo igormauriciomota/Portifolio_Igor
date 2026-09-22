@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{ article.title }} | Igor Mota{% endblock %}
+{% block description %}{{ article.summary }}{% endblock %}
+{% block body %}
+<main class="reading-page" id="conteudo">
+  <header class="projects-nav"><a class="brand" href="{{ url_for('main.index') }}"><span class="brand-mark">IM</span><span><strong>Igor Mota</strong><small>Artigo técnico</small></span></a><nav><a class="technology-back" href="{{ url_for('main.index') }}#artigos">← Voltar aos artigos</a></nav></header>
+  <article class="reading-article">
+    <p>PYTHON · DADOS · NEGÓCIOS</p>
+    <h1>{{ article.title }}</h1>
+    <strong>{{ article.summary }}</strong>
+    <div class="reading-body">{% for paragraph in article.body.split('\n') if paragraph.strip() %}<p>{{ paragraph }}</p>{% endfor %}</div>
+  </article>
+  <footer class="technology-footer"><span>© {{ current_year }} Igor Mota</span><a href="{{ url_for('main.index') }}#contato">Contato profissional ↗</a></footer>
+</main>
+{% endblock %}
+

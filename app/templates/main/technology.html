@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% from "macros/icons.html" import technology_icon %}
+{% block title %}{{ technology.title }} | Igor Mota{% endblock %}
+{% block description %}{{ technology.summary }}{% endblock %}
+{% block body %}
+<main class="technology-page" id="conteudo">
+  <img class="technology-backdrop" src="{{ url_for('static', filename='assets/igor-portfolio-realistic-v2.webp') }}" alt="" aria-hidden="true">
+  <header class="technology-nav">
+    <a class="brand" href="{{ url_for('main.index') }}"><span class="brand-mark">IM</span><span><strong>Igor Mota</strong><small>Python • Dados • Negócios</small></span></a>
+    <nav><a href="{{ url_for('main.index') }}#projetos">Projetos</a><a href="{{ url_for('main.index') }}#contato">Contato</a><a class="technology-back" href="{{ url_for('main.index') }}">← Voltar ao portfólio</a></nav>
+  </header>
+
+  <section class="technology-hero">
+    <div class="technology-hero-copy">
+      <p>{{ technology.eyebrow }}</p>
+      {{ technology_icon(technology.icon, 'technology-mark technology-mark-django' if technology.slug == 'django' else 'technology-mark', 'Ícone de ' ~ technology.title) }}
+      <h1>{{ technology.title }}</h1>
+      <strong>{{ technology.summary }}</strong>
+      <span>{{ technology.impact }}</span>
+      <div class="technology-actions">
+        {% if technology.slug == 'power-bi' %}<a class="button button-primary" href="#laboratorio">Testar com uma planilha ↓</a>{% endif %}
+        {% if technology.slug == 'django' %}<a class="button button-primary" href="{{ url_for('main.projects', filtro='Django') }}">Ver projetos em Django ↗</a>{% endif %}
+        <a class="button button-ghost" href="{{ url_for('main.projects') }}">Ver todos os projetos ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="technology-content">
+    <div class="technology-heading"><p>COMO EU APLICO</p><h2>Conhecimento demonstrado em <span>problemas reais.</span></h2></div>
+    <div class="application-grid">
+      {% for title, text, tag in technology.applications %}
+        <article><span>0{{ loop.index }} · {{ tag }}</span><h3>{{ title }}</h3><p>{{ text }}</p></article>
+      {% endfor %}
+    </div>
+
+    <div class="technology-process">
+      <div><p>MÉTODO DE TRABALHO</p><h2>Da necessidade à <span>entrega verificável.</span></h2></div>
+      <ol>{% for number, title, text in technology.process %}<li><span>{{ number }}</span><div><h3>{{ title }}</h3><p>{{ text }}</p></div></li>{% endfor %}</ol>
+    </div>
+
+    <div class="technology-stack" aria-label="Tecnologias relacionadas">{% for item in technology.stack %}<span>{{ item }}</span>{% endfor %}</div>
+
+    {% if technology.slug == 'django' %}
+      <section class="django-integration" aria-labelledby="django-integration-title">
+        <div><p>COMO O DJANGO FUNCIONA</p><h2 id="django-integration-title">Uma arquitetura conectada do navegador ao banco de dados.</h2><span>A URL recebe a requisição, a view coordena a regra, o model acessa os dados pelo ORM e o template ou a API devolve a resposta.</span></div>
+        <div class="django-flow" aria-label="Fluxo simplificado de uma aplicação Django">
+          <article><b>01</b><strong>URLs</strong><span>Direcionam cada requisição</span></article><i>→</i>
+          <article><b>02</b><strong>Views</strong><span>Orquestram a regra de negócio</span></article><i>→</i>
+          <article><b>03</b><strong>Models e ORM</strong><span>Validam e consultam dados</span></article><i>→</i>
+          <article><b>04</b><strong>Template ou API</strong><span>Entrega HTML ou JSON</span></article>
+        </div>
+        <div class="django-connections">
+          <article><span>POSTGRESQL</span><p>Persistência relacional, transações e consultas estruturadas.</p></article>
+          <article><span>DRF</span><p>APIs REST para React, aplicativos, parceiros e automações.</p></article>
+          <article><span>CELERY + REDIS</span><p>Importações, relatórios e tarefas demoradas fora da requisição.</p></article>
+          <article><span>POWER BI</span><p>Dados preparados por consultas, APIs ou camadas analíticas.</p></article>
+        </div>
+        <a class="django-official-link" href="{{ technology.official_url }}" target="_blank" rel="noopener">Conhecer a visão geral oficial do Django ↗</a>
+      </section>
+    {% endif %}
+  </section>
+
+  {% if technology.slug == 'power-bi' %}{% include "main/_data_lab.html" %}{% endif %}
+
+  <section class="technology-cta">
+    <p>VISÃO DE NEGÓCIO + TECNOLOGIA</p>
+    <h2>Procura alguém capaz de conectar processos, dados e desenvolvimento?</h2>
+    <div><a class="button button-primary" href="mailto:mota.full.stack@gmail.com">Conversar por e-mail</a><a class="button button-ghost" href="https://www.linkedin.com/in/igor-mota-320872274" target="_blank" rel="noopener">LinkedIn ↗</a></div>
+  </section>
+  <footer class="technology-footer"><span>© {{ current_year }} Igor Mota</span><a href="{{ url_for('main.index') }}">Portfólio principal</a></footer>
+</main>
+{% endblock %}
+{% block scripts %}
+  {% if technology.slug == 'power-bi' %}
+    <script defer src="{{ url_for('static', filename='vendor/xlsx.full.min.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/data-lab.js') }}"></script>
+  {% endif %}
+{% endblock %}
+

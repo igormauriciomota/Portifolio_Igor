@@ -1,3 +1,0 @@
-# Ferramentas usadas somente durante desenvolvimento e estudos.
-pytest==8.4.1
-ruff==0.12.9

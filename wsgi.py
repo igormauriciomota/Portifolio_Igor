@@ -1,6 +1,8 @@
-"""Entrada WSGI da versão Flask para Gunicorn e hospedagens compatíveis."""
+from dotenv import load_dotenv
 
-from run import app
+from app import create_app
 
 
-__all__ = ["app"]
+# Gunicorn procura esta variável: gunicorn wsgi:app
+load_dotenv()
+app = create_app()

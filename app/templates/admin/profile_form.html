@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Editar perfil | Portfólio{% endblock %}
+{% block body %}
+<main class="admin-shell" id="conteudo">
+  <header class="admin-topbar"><a class="brand" href="{{ url_for('admin.dashboard') }}"><span class="brand-mark">IM</span><span><strong>Editar perfil</strong><small>Dados públicos e contato</small></span></a><a class="technology-back" href="{{ url_for('admin.dashboard') }}">← Voltar ao painel</a></header>
+  <div class="admin-container"><section class="admin-card"><div class="admin-card-title"><span>01</span><div><h2>Perfil público</h2><p>Foto, currículo e canais profissionais podem ser atualizados aqui.</p></div></div>
+    <form method="post" enctype="multipart/form-data" class="admin-form">{{ form.hidden_tag() }}{% for field in form if field.name not in ['csrf_token','submit'] %}<label class="{{ 'wide' if field.type in ['TextAreaField','FileField'] else '' }}">{{ field.label }}{{ field() }}{% for error in field.errors %}<span class="field-error">{{ error }}</span>{% endfor %}</label>{% endfor %}<div class="admin-form-action">{{ form.submit(class='button button-primary') }}</div></form>
+  </section></div>
+</main>
+{% endblock %}

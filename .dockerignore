@@ -1,0 +1,11 @@
+.git
+.venv
+venv
+__pycache__
+.pytest_cache
+.ruff_cache
+.env
+instance
+app/static/uploads/*
+!app/static/uploads/.gitkeep
+
