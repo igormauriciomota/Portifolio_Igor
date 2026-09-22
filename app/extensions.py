@@ -2,7 +2,6 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 
-
 # As extensões são criadas sem a aplicação para evitar importações circulares.
 db = SQLAlchemy()
 login_manager = LoginManager()

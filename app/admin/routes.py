@@ -5,11 +5,11 @@ from datetime import datetime, timezone
 from flask import flash, redirect, render_template, url_for
 from flask_login import login_required
 
-from . import bp
-from .forms import ArticleForm, ProfileForm, ProjectForm
 from ..extensions import db
 from ..models import Article, Profile, Project
 from ..services.storage import DOCUMENT_EXTENSIONS, IMAGE_EXTENSIONS, VIDEO_EXTENSIONS, save_upload
+from . import bp
+from .forms import ArticleForm, ProfileForm, ProjectForm
 
 
 def slugify(value):

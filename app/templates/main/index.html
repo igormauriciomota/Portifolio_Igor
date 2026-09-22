@@ -184,30 +184,41 @@ README.md              # instalação e deploy</code></pre>
 
     <section class="section articles" id="artigos">
       <div class="section-heading"><p>05 · APRENDIZADO PÚBLICO</p><h2>Aprender, resolver,<br><span>documentar.</span></h2></div>
-      <div class="github-card">
-        <div><span class="availability-dot"></span><small>ATIVIDADE PÚBLICA RECENTE</small><h3>{% if github_activity.username %}github.com/{{ github_activity.username }}{% else %}GitHub em atualização{% endif %}</h3><p>{{ github_activity.total }} eventos públicos recentes</p></div>
+      <div class="github-activity">
+        <div><p>ATIVIDADE PÚBLICA RECENTE</p><h3>{% if github_activity.username %}github.com/{{ github_activity.username }}{% else %}GitHub em atualização{% endif %}</h3><span>{{ github_activity.total }} eventos públicos recentes</span></div>
         <div class="contribution-grid">{% for day in github_activity.days %}<i class="level-{{ [day.count, 4]|min }}" title="{{ day.date }}: {{ day.count }} evento(s)"></i>{% else %}{% for _ in range(49) %}<i></i>{% endfor %}{% endfor %}</div>
         {% if profile.github_url %}<a href="{{ profile.github_url }}" target="_blank" rel="noopener">Abrir GitHub ↗</a>{% endif %}
       </div>
       <div class="article-grid">
         {% for article in articles %}
-          <article><small>ARTIGO · PYTHON &amp; NEGÓCIOS</small><h3>{{ article.title }}</h3><p>{{ article.summary }}</p><a href="{{ url_for('main.article_detail', slug=article.slug) }}">Ler artigo →</a></article>
+          <article>
+            <span class="article-tag">{{ 'FLASK' if loop.first else 'PYTHON' }}</span>
+            <time>LEITURA · {{ 6 if loop.first else 8 }} MIN</time>
+            <h3>{{ article.title }}</h3>
+            <p>{{ article.summary }}</p>
+            <a class="text-link" href="{{ url_for('main.article_detail', slug=article.slug) }}">Ler artigo →</a>
+          </article>
         {% endfor %}
+        <article class="article-cta"><span>+ artigos</span><h3>Uma base de conhecimento construída junto com o portfólio.</h3><p>Erros, decisões de arquitetura e aprendizados serão transformados em conteúdo verificável.</p></article>
       </div>
     </section>
 
     <section class="section contact" id="contato">
-      <div class="contact-grid">
-        <div class="section-heading"><p>06 · CONTATO</p><h2>Vamos construir algo<br><span>útil e mensurável?</span></h2><p class="contact-copy">Procuro oportunidades em desenvolvimento Python, automação, sistemas empresariais e análise de dados.</p></div>
-        <div class="contact-links">
-          {% if profile.email %}<a class="contact-card" href="mailto:{{ profile.email }}"><span>EMAIL</span><strong>{{ profile.email }}</strong><small>Responder por e-mail ↗</small></a>{% endif %}
-          {% if profile.linkedin_url %}<a class="contact-card" href="{{ profile.linkedin_url }}" target="_blank" rel="noopener"><span>LINKEDIN</span><strong>Igor Mota</strong><small>Conectar profissionalmente ↗</small></a>{% endif %}
-          {% if profile.github_url %}<a class="contact-card" href="{{ profile.github_url }}" target="_blank" rel="noopener"><span>GITHUB</span><strong>@igormauriciomota</strong><small>Ver código e evolução ↗</small></a>{% endif %}
-          {% if profile.whatsapp_url %}<a class="contact-card" href="{{ profile.whatsapp_url }}" target="_blank" rel="noopener"><span>WHATSAPP</span><strong>Iniciar conversa</strong><small>Abrir WhatsApp ↗</small></a>{% endif %}
+      <div class="contact-card">
+        <p class="kicker"><span></span> VAMOS CONVERSAR</p>
+        <h2>Tem um problema de negócio que pode virar uma <em>boa solução?</em></h2>
+        <p>Busco oportunidades em desenvolvimento Python, sistemas empresariais e análise de dados — especialmente onde experiência de negócio também importa.</p>
+        <div class="contact-actions">
+          {% if profile.email %}<a class="button button-primary" href="mailto:{{ profile.email }}">Enviar e-mail</a>{% endif %}
+          {% if profile.linkedin_url %}<a class="button button-ghost" href="{{ profile.linkedin_url }}" target="_blank" rel="noopener">LinkedIn ↗</a>{% endif %}
+          {% if profile.github_url %}<a class="button button-ghost" href="{{ profile.github_url }}" target="_blank" rel="noopener">GitHub ↗</a>{% endif %}
+          {% if profile.whatsapp_url %}<a class="button button-ghost" href="{{ profile.whatsapp_url }}" target="_blank" rel="noopener">WhatsApp ↗</a>{% endif %}
         </div>
+        <small>Contato direto para oportunidades em Python, dados, BI, automação e sistemas empresariais.</small>
       </div>
-      <footer class="site-footer"><span>© {{ current_year }} Igor Mota</span><span>Python · Dados · Negócios</span><a href="{{ url_for('auth.login') }}">Área administrativa</a></footer>
     </section>
+
+    <footer class="footer"><span>© {{ current_year }} Igor Mota</span><span>Projetado com estratégia · Construído com Python e Flask</span><a href="#inicio">Voltar ao topo ↑</a></footer>
   </main>
 </div>
 

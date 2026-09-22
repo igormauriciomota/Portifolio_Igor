@@ -5,7 +5,6 @@ from flask import current_app
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 
-
 IMAGE_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
 DOCUMENT_EXTENSIONS = {"pdf"}
 VIDEO_EXTENSIONS = {"mp4", "webm"}

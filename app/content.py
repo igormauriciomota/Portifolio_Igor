@@ -17,6 +17,7 @@ PROFILE_DEFAULTS = {
     "email": "mota.full.stack@gmail.com",
     "linkedin_url": "https://www.linkedin.com/in/igor-mota-320872274",
     "github_url": "https://github.com/igormauriciomota",
+    "whatsapp_url": "https://wa.me/5531975340765",
     "photo_filename": "asset:igor-avatar-realistic-v2.webp",
 }
 
@@ -228,17 +229,17 @@ TECHNOLOGIES = {
 
 ARTICLE_DEFAULTS = [
     {
-        "title": "Como estruturo aplicações Flask modulares",
-        "slug": "aplicacoes-flask-modulares",
-        "summary": "Blueprints, Application Factory, banco e testes explicados a partir deste portfólio.",
-        "body": "Uma aplicação modular separa apresentação, regras e persistência. Neste projeto, cada Blueprint possui uma responsabilidade clara e a fábrica create_app conecta extensões, configurações e rotas.",
+        "title": "Do erro ‘view retornou None’ ao fluxo completo de uma rota Flask",
+        "slug": "fluxo-completo-rota-flask",
+        "summary": "Um bug simples como ponto de partida para entender requisição, retorno e renderização de templates.",
+        "body": "Uma rota Flask precisa sempre devolver uma resposta válida. A partir desse erro, é possível compreender como a requisição chega à view, como as regras são executadas e como o template recebe os dados.",
         "published": True,
     },
     {
-        "title": "Do dado operacional ao indicador confiável",
-        "slug": "dado-operacional-indicador-confiavel",
-        "summary": "Uma visão prática de qualidade, modelagem, contexto e comunicação para dashboards.",
-        "body": "Um gráfico só é útil quando a origem, a regra do indicador e o período estão claros. A análise começa pela pergunta e termina com uma decisão possível.",
+        "title": "Como um CRUD com listas prepara o caminho para SQLite",
+        "slug": "crud-listas-para-sqlite",
+        "summary": "O que permanece igual — e o que muda — quando os dados deixam a memória e chegam ao banco.",
+        "body": "O fluxo de criar, consultar, atualizar e excluir permanece o mesmo. O SQLite acrescenta persistência, consultas e integridade, permitindo evoluir o exercício para uma aplicação real.",
         "published": True,
     },
 ]

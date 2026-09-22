@@ -2,11 +2,11 @@
 
 from flask import Response, abort, current_app, jsonify, render_template, request, url_for
 
-from . import bp
 from ..content import TECHNOLOGIES
 from ..extensions import db
 from ..models import Article, Profile, Project
 from ..services.github import recent_public_activity, repository_progress
+from . import bp
 
 
 @bp.get("/")

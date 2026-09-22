@@ -7,6 +7,9 @@ def test_home_returns_success(client):
     assert "Entrar no holograma" in html
     assert "Flask · APIs" in html
     assert "Gerente 360" in html
+    assert 'class="contact-card"' in html
+    assert 'class="contact-grid"' not in html
+    assert "Construído com Python e Flask" in html
     assert "Content-Security-Policy" in response.headers
 
 
@@ -59,9 +62,9 @@ def test_projects_catalog_and_gerente_360_detail(client):
 
 
 def test_articles_sitemap_manifest_and_robots(client):
-    article = client.get("/artigos/aplicacoes-flask-modulares")
+    article = client.get("/artigos/fluxo-completo-rota-flask")
     assert article.status_code == 200
-    assert "Application Factory" in article.get_data(as_text=True)
+    assert "resposta válida" in article.get_data(as_text=True)
 
     sitemap = client.get("/sitemap.xml")
     assert sitemap.status_code == 200

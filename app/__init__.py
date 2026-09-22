@@ -4,6 +4,7 @@ from pathlib import Path
 from flask import Flask, render_template, request, url_for
 
 from config import Config
+
 from .extensions import csrf, db, login_manager
 
 
@@ -28,9 +29,9 @@ def create_app(config_class=Config):
     csrf.init_app(app)
 
     # Imports locais: os Blueprints só são importados depois que o Flask existe.
-    from .main import bp as main_bp
-    from .auth import bp as auth_bp
     from .admin import bp as admin_bp
+    from .auth import bp as auth_bp
+    from .main import bp as main_bp
 
     # Cada Blueprint cuida de uma área e de seu prefixo de URL.
     app.register_blueprint(main_bp)
